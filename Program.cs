@@ -1,13 +1,18 @@
-global using dotnet_rpg.Models;
-global using dotnet_rpg.Services.CharacterService;
-global using dotnet_rpg.Dtos.Character;
-global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
-global using dotnet_rpg.Data;
 global using Microsoft.AspNetCore.Mvc;
-global using dotnet_rpg.Dtos.User;
-global using dotnet_rpg.Dtos;
+global using dotnet_rpg.Models;
+global using AutoMapper;
+global using Microsoft.AspNetCore.Authorization;
 global using System.Security.Claims;
+global using dotnet_rpg.Data;
+global using dotnet_rpg.Dtos;
+global using dotnet_rpg.Dtos.Character;
+global using dotnet_rpg.Dtos.User;
+global using dotnet_rpg.Dtos.Weapon;
+global using dotnet_rpg.Dtos.Skill;
+
+global using dotnet_rpg.Services.CharacterService;
+global using dotnet_rpg.Services.WeaponsService;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -37,6 +42,7 @@ builder.Services.AddSwaggerGen(c => {
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<ICharacterService, CharacterService>();
+builder.Services.AddScoped<IWeaponService, WeaponService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();   // inregistram AuthRepository
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
@@ -50,6 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ValidateAudience = false
         };
     });
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

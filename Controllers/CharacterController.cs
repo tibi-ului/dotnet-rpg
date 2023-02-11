@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace dotnet_rpg.Controllers
 {
     [Authorize]
@@ -21,8 +22,9 @@ namespace dotnet_rpg.Controllers
         
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
-            return Ok(await _characterService.GetAllCharacters(userId));
+            //int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+
+            return Ok(await _characterService.GetAllCharacters());
         }
 
         [HttpGet("{id}")]
@@ -35,6 +37,7 @@ namespace dotnet_rpg.Controllers
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter) 
         {
             return Ok(await _characterService.AddCharacter(newCharacter));
+
         }
 
         [HttpPut]
@@ -57,8 +60,14 @@ namespace dotnet_rpg.Controllers
             {
                 return NotFound(response);
             }
-            return Ok(response);
-            
+            return Ok(response);  
         }
+
+        [HttpPost("Skill")]   // folosim http si route pe aceasi linie
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill)
+        {
+            return Ok(await _characterService.AddCharacterSkill(newCharacterSkill));
+        }
+
     }
 }
