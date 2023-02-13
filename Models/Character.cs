@@ -15,6 +15,9 @@ namespace dotnet_rpg.Models
         public User? User { get; set; }
         public Weapon? Weapon { get; set; }   // relatie one to one cu weapon
         public List<Skill>? Skills { get; set; }
+        public int Fights { get; set; }
+        public int Victories { get; set; }
+        public int Defeates { get; set; }
 
     }
 }
